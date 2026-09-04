@@ -44,6 +44,14 @@ When using GitHub's browser uploader, upload the extracted project contents.
 Every included file is below 25 MB in version 1.2.0; do not upload the older
 unsplit `ShaderVariants_add.unity3d` file.
 
+Version 1.2.1 fixes the native-wheel target to cibuildwheel's required
+`arm64_iphoneos` identifier. This resolves the `Invalid archs option: arm64`
+failure from the first GitHub Actions run.
+
+Version 1.2.2 builds Pillow from its complete official Git tag. Pillow's PyPI
+source archive omits the iOS dependency helper referenced by its cibuildwheel
+configuration, which caused GitHub Actions to stop with exit code 127.
+
 The automated wheel build uses cibuildwheel's iOS target. If an upstream native
 package does not support iOS cross-compilation, the workflow intentionally stops
 at that package instead of uploading an IPA that installs but crashes.

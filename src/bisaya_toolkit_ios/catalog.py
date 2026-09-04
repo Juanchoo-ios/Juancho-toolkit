@@ -5,7 +5,7 @@ import urllib.request
 from dataclasses import dataclass
 
 
-USER_AGENT = "Bisaya-Toolkit-iOS/1.2"
+USER_AGENT = "Bisaya-Toolkit-iOS/1.2.2"
 CATALOGS = {
     "Skins": "https://raw.githubusercontent.com/missnapokita/masterkiter/refs/heads/main/skins.json",
     "Suggested": "https://raw.githubusercontent.com/missnapokita/masterkiter/refs/heads/main/suggested.json",

@@ -5,7 +5,7 @@ build-backend = "briefcase.integrations.setuptools"
 [tool.briefcase]
 project_name = "Bisaya Toolkit iOS"
 bundle = "com.juancho"
-version = "1.2.0"
+version = "1.2.2"
 url = "https://example.invalid/bisaya-toolkit"
 license.file = "LICENSE"
 author = "Juancho"
