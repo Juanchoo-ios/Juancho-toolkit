@@ -26,15 +26,25 @@ for SPEC in $PACKAGES; do
     WORK="$SOURCES/$NAME"
     rm -rf "$WORK"
     mkdir -p "$WORK/download" "$WORK/source"
-    python -m pip download --no-deps --no-binary=:all: --dest "$WORK/download" "$SPEC"
-    ARCHIVE=$(find "$WORK/download" -type f | head -n 1)
-    case "$ARCHIVE" in
-        *.tar.gz|*.tgz) tar -xzf "$ARCHIVE" -C "$WORK/source" --strip-components=1 ;;
-        *.zip) ditto -x -k "$ARCHIVE" "$WORK/source" ;;
-        *) echo "Unsupported source archive: $ARCHIVE"; exit 1 ;;
-    esac
+    if [ "$NAME" = "pillow" ]; then
+        # Pillow's PyPI sdist omits .github/workflows/wheels-dependencies.sh,
+        # but its iOS cibuildwheel configuration calls that helper. Use the
+        # complete matching upstream tag so its iOS bootstrap is available.
+        git clone --depth 1 --branch 12.3.0 \
+            https://github.com/python-pillow/Pillow.git "$WORK/source"
+    else
+        python -m pip download --no-deps --no-binary=:all: --dest "$WORK/download" "$SPEC"
+        ARCHIVE=$(find "$WORK/download" -type f | head -n 1)
+        case "$ARCHIVE" in
+            *.tar.gz|*.tgz) tar -xzf "$ARCHIVE" -C "$WORK/source" --strip-components=1 ;;
+            *.zip) ditto -x -k "$ARCHIVE" "$WORK/source" ;;
+            *) echo "Unsupported source archive: $ARCHIVE"; exit 1 ;;
+        esac
+    fi
     (
         cd "$WORK/source"
+        # cibuildwheel uses an iOS-specific architecture identifier. Generic
+        # "arm64" is valid on desktop platforms but rejected for iOS.
         CIBW_BUILD="cp313-*" \
         CIBW_ARCHS="arm64_iphoneos" \
         CIBW_BUILD_VERBOSITY=1 \
