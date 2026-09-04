@@ -1,0 +1,40 @@
+[build-system]
+requires = ["briefcase"]
+build-backend = "briefcase.integrations.setuptools"
+
+[tool.briefcase]
+project_name = "Bisaya Toolkit iOS"
+bundle = "com.juancho"
+version = "1.1.0"
+url = "https://example.invalid/bisaya-toolkit"
+license.file = "LICENSE"
+author = "Juancho"
+author_email = "noreply@example.invalid"
+
+[tool.briefcase.app.bisaya_toolkit]
+formal_name = "Bisaya Toolkit"
+description = "Download and convert supported MLBB Unity packages on device."
+long_description = "README.md"
+sources = ["src/bisaya_toolkit_ios"]
+test_sources = ["tests"]
+requires = [
+    "toga==0.5.6",
+    "UnityPy==1.25.3",
+    "Pillow>=12.0",
+    "lz4",
+    "brotli",
+    "texture2ddecoder>=1.0.5",
+    "etcpak",
+    "astc-encoder-py>=0.1.12",
+    "fmod_toolkit",
+    "fsspec",
+    "attrs",
+    "tpk_ar",
+]
+
+[tool.briefcase.app.bisaya_toolkit.iOS.app]
+requires = ["toga-iOS>=0.5.6"]
+min_os_version = "15.0"
+requirement_installer_args = ["--find-links", "wheels"]
+info."UIFileSharingEnabled" = true
+info."LSSupportsOpeningDocumentsInPlace" = true
