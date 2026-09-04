@@ -1,0 +1,36 @@
+name: Build TrollStore IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Build native iOS wheels and IPA
+        run: sh build_on_macos.sh
+
+      - name: Locate IPA
+        shell: bash
+        run: |
+          test -f release/Bisaya_Toolkit_TrollStore.ipa
+          unzip -tq release/Bisaya_Toolkit_TrollStore.ipa
+
+      - name: Upload installable IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Bisaya-Toolkit-TrollStore-IPA
+          path: release/Bisaya_Toolkit_TrollStore.ipa
+          if-no-files-found: error
+          retention-days: 30
