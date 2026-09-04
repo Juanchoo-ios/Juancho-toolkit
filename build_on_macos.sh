@@ -9,6 +9,7 @@ fi
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install --upgrade pip briefcase
+python scripts/assemble_shaders.py
 sh scripts/build_ios_wheels.sh
 
 briefcase create iOS

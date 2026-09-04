@@ -4,6 +4,11 @@ This source package ports the desktop workflow to an on-device iOS application.
 It includes a macOS/GitHub Actions build that attempts to compile UnityPy's
 native dependencies for iPhone arm64 before producing the IPA.
 
+`ShaderVariants_add.unity3d` is stored as several `.part` files because GitHub's
+browser uploader rejects individual files larger than 25 MB. The build runs
+`scripts/assemble_shaders.py`, verifies the exact size and SHA-256 checksum, and
+reconstructs the original shader automatically before creating the iOS app.
+
 ## Included workflow
 
 1. Load and deduplicate the downloadable skin catalogs.
@@ -34,6 +39,10 @@ Alternatively, place the project in a GitHub
 repository, open **Actions**, select **Build TrollStore IPA**, and choose
 **Run workflow**. Download the resulting `Bisaya-Toolkit-TrollStore-IPA`
 artifact and install the `.ipa` through TrollStore.
+
+When using GitHub's browser uploader, upload the extracted project contents.
+Every included file is below 25 MB in version 1.2.0; do not upload the older
+unsplit `ShaderVariants_add.unity3d` file.
 
 The automated wheel build uses cibuildwheel's iOS target. If an upstream native
 package does not support iOS cross-compilation, the workflow intentionally stops
