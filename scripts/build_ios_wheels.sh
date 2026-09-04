@@ -36,7 +36,7 @@ for SPEC in $PACKAGES; do
     (
         cd "$WORK/source"
         CIBW_BUILD="cp313-*" \
-        CIBW_ARCHS="arm64" \
+        CIBW_ARCHS="arm64_iphoneos" \
         CIBW_BUILD_VERBOSITY=1 \
         python -m cibuildwheel --platform ios --output-dir "$WHEELS"
     )
